@@ -11,11 +11,17 @@ from street_fighter_custom_wrapper_gerneral import StreetFighterCustomWrapper
 RESET_ROUND = False  # Whether to reset the round when fight is over. 
 RENDERING = True    # Whether to render the game screen.
 
-MODEL_NAME = r"ppo_ryu_gerneral_5500000_steps" # Specify the model file to load. Model "ppo_ryu_2500000_steps_updated" is capable of beating the final stage (Bison) of the game.
+advanced = r"ppo_ryu_basic_5000000_steps"
+king = r"ppo_ryu_king_10000000_steps"
+gerneral = r'ppo_ryu_gerneral_10000000_steps'
+
+MODEL_NAME = advanced
+#MODEL_NAME = gerneral
+#MODEL_NAME = king # Specify the model file to load. Model "ppo_ryu_2500000_steps_updated" is capable of beating the final stage (Bison) of the game.
 
 RANDOM_ACTION = False
-NUM_EPISODES = 50 # Make sure NUM_EPISODES >= 3 if you set RESET_ROUND to False to see the whole final stage game.
-MODEL_DIR = r"trained_models_gerneral_10/"
+NUM_EPISODES = 5 # Make sure NUM_EPISODES >= 3 if you set RESET_ROUND to False to see the whole final stage game.
+MODEL_DIR = r"StreetFighterAI/train_result/"
 
 def make_env(game, state):
     def _init():
