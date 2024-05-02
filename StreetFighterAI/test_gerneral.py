@@ -11,11 +11,10 @@ from street_fighter_custom_wrapper_gerneral import StreetFighterCustomWrapper
 RESET_ROUND = False  # Whether to reset the round when fight is over. 
 RENDERING = True    # Whether to render the game screen.
 
-advanced = r"ppo_ryu_basic_5000000_steps"
-king = r"ppo_ryu_king_10000000_steps"
-gerneral = r'ppo_ryu_gerneral_10000000_steps'
 
-MODEL_NAME = advanced
+gerneral = r'ppo_ryu_gerneral_10000000_steps'
+king = r"ppo_ryu_king_10000000_steps"
+
 #MODEL_NAME = gerneral
 #MODEL_NAME = king # Specify the model file to load. Model "ppo_ryu_2500000_steps_updated" is capable of beating the final stage (Bison) of the game.
 
