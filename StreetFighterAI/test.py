@@ -14,8 +14,11 @@ RESET_ROUND = True
 RENDERING = True    # Whether to render the game screen.
 
 base = r'ppo_ryu_base_3000000_steps'
-basic = r"ppo_ryu_basic_3000000_steps"
-adanvanced = r"ppo_ryu_gerneral_3000000_steps"
+Diambra = r"ppo_ryu_basic_3000000_steps"
+adanvanced = r"ppo_ryu_both_3000000_steps"
+
+MODEL_NAME = base
+MODEL_NAME = Diambra#RESET_ROUND = False
 MODEL_NAME = adanvanced # Specify the model file to load. Model "ppo_ryu_2500000_steps_updated" is capable of beating the final stage (Bison) of the game.
 
 

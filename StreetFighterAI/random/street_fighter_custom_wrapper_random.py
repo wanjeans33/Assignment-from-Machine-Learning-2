@@ -19,7 +19,7 @@ class StreetFighterCustomWrapper(gym.Wrapper):
         self.round_end = False
         self.jump = False
         self.round2 = True
-        self.sleep = True
+        self.sleep = False
 
         # Use a deque to store the last 9 frames
         self.num_frames = 9
@@ -45,28 +45,35 @@ class StreetFighterCustomWrapper(gym.Wrapper):
         return np.stack([self.frame_stack[i * 3 + 2][:, :, i] for i in range(3)], axis=-1)
 
     def reset(self):
-        #random_number = random.randint(1, 3)
-        random_number = 2
+        random_number = random.randint(1, 2)
+        #random_number = 1
         observation = self.env.reset()
         self.win = 0
         self.loss = 0
-        
+        self.jump = False
         self.prev_player_health = self.full_hp
         self.prev_oppont_health = self.full_hp
 
         self.total_timesteps = 0
         
-        # Clear the frame stack and add the first observation [num_frames] times
         self.frame_stack.clear()
         for _ in range(self.num_frames):
             self.frame_stack.append(observation[::2, ::2, :])
-            
-        if random_number ==2 or random_number == 3:
+        
+        if random_number ==2 :
+            if self.rendering:
+                print('start in round 2')
             #print("init jump")
             self.jump = True
-            self.env.step([0]*12)
+        else:
+            if self.rendering:
+                print('start in round 1')
+            
+  
+        # Clear the frame stack and add the first observation [num_frames] times
 
-
+            
+            
         return np.stack([self.frame_stack[i * 3 + 2][:, :, i] for i in range(3)], axis=-1)
     
 
@@ -95,13 +102,12 @@ class StreetFighterCustomWrapper(gym.Wrapper):
         curr_oppont_health = info['enemy_hp'] 
         
         if self.jump :
-            custom_reward = 0
             self.prev_player_health = self.full_hp
             self.prev_oppont_health = self.full_hp
             custom_done = False
+            custom_reward = 0
             while curr_player_health > 0 or curr_player_health > 0:
                 #print("jump")
-                self.jump = True
                 obs, _reward, _done, info = self.env.step([0] * 12)
                 curr_player_health = info['agent_hp']
                 curr_oppont_health = info['enemy_hp'] 
@@ -124,14 +130,14 @@ class StreetFighterCustomWrapper(gym.Wrapper):
             reduce_player_health = self.prev_player_health - curr_player_health 
      
             # Determine game status and calculate rewards.
-            if curr_player_health <= 0:
+            if curr_player_health < 0:
                 custom_reward = -math.pow(self.full_hp, (curr_oppont_health + 1) / (self.full_hp + 1))
                 self.loss += 1
                 self.round +=1
                 #print("done!")
                 custom_done = True
             
-            elif curr_oppont_health <= 0 :
+            elif curr_oppont_health < 0 :
                 custom_reward = math.pow(self.full_hp, (curr_player_health + 1) / (self.full_hp + 1)) * self.reward_coeff
                 self.win += 1
                 self.round +=1

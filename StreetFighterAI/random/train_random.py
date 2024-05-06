@@ -8,7 +8,7 @@ from stable_baselines3 import PPO
 from stable_baselines3.common.monitor import Monitor
 from stable_baselines3.common.callbacks import CheckpointCallback
 from stable_baselines3.common.vec_env import SubprocVecEnv
-from street_fighter_custom_wrapper_gerneral import StreetFighterCustomWrapper
+from street_fighter_custom_wrapper_random import StreetFighterCustomWrapper
 
 NUM_ENV = 16
 LOG_DIR = 'logs_gerneral'
@@ -64,26 +64,13 @@ def main():
         gamma=0.94,
         learning_rate=lr_schedule,
         clip_range=clip_range_schedule,
-        tensorboard_log="logs_gerneral"
+        tensorboard_log="logs_final"
     )
 
     # Set the save directory
-    save_dir = "trained_models_gerneral_8"
+    save_dir = "trained_models_gerneral_random"
     os.makedirs(save_dir, exist_ok=True)
 
-    # Load the model from file
-    # model_path = "trained_models/ppo_ryu_7000000_steps.zip"
-    
-    # Load model and modify the learning rate and entropy coefficient
-    # custom_objects = {
-    #     "learning_rate": lr_schedule,
-    #     "clip_range": clip_range_schedule,
-    #     "n_steps": 512
-    # }
-    # model = PPO.load(model_path, env=env, device="cuda", custom_objects=custom_objects)
-
-    # Set up callbacks
-    # Note that 1 timesetp = 6 frame
     checkpoint_interval = 31250 # checkpoint_interval * num_envs = total_steps_per_checkpoint
     checkpoint_callback = CheckpointCallback(save_freq=checkpoint_interval, save_path=save_dir, name_prefix="ppo_ryu_gerneral")
 
